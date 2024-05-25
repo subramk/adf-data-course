@@ -1,0 +1,21 @@
+{
+	"name": "RetailPricesJSON",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "DataSinkLinkedService",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "prices.json",
+				"folderPath": "kk/json",
+				"fileSystem": "landing"
+			},
+			"encodingName": "UTF-8"
+		},
+		"schema": {}
+	}
+}
