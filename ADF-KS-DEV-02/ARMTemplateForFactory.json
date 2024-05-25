@@ -227,8 +227,7 @@
 					"location": {
 						"type": "HttpServerLocation",
 						"relativeUrl": "/labs/lab2/PW_MW_DR_01012023.json"
-					},
-					"encodingName": "UTF-8"
+					}
 				},
 				"schema": {}
 			},
@@ -278,35 +277,6 @@
 						"type": "AzureBlobFSLocation",
 						"fileName": "kk.csv",
 						"folderPath": "kkk",
-						"fileSystem": "landing"
-					},
-					"columnDelimiter": ",",
-					"escapeChar": "\\",
-					"firstRowAsHeader": true,
-					"quoteChar": "\""
-				},
-				"schema": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/DataSinkLinkedService')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/SinkForJsonDataSource')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "DataSinkLinkedService",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "DelimitedText",
-				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "prices.json",
-						"folderPath": "kk",
 						"fileSystem": "landing"
 					},
 					"columnDelimiter": ",",
@@ -387,6 +357,36 @@
 				}
 			},
 			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SinkForJsonDataSource')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "SinkForJsonDataSource",
+				"linkedServiceName": {
+					"referenceName": "DataSinkLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "prices.json",
+						"folderPath": "kkk",
+						"fileSystem": "landing"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DataSinkLinkedService')]"
+			]
 		}
 	]
 }

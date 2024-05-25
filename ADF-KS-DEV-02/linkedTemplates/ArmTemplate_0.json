@@ -146,8 +146,7 @@
 					"location": {
 						"type": "HttpServerLocation",
 						"relativeUrl": "/labs/lab2/PW_MW_DR_01012023.json"
-					},
-					"encodingName": "UTF-8"
+					}
 				},
 				"schema": {}
 			},
@@ -215,6 +214,7 @@
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"description": "SinkForJsonDataSource",
 				"linkedServiceName": {
 					"referenceName": "DataSinkLinkedService",
 					"type": "LinkedServiceReference"
@@ -225,7 +225,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "prices.json",
-						"folderPath": "kk",
+						"folderPath": "kkk",
 						"fileSystem": "landing"
 					},
 					"columnDelimiter": ",",
