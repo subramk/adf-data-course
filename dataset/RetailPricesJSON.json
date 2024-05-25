@@ -2,7 +2,7 @@
 	"name": "RetailPricesJSON",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "DataSinkLinkedService",
+			"referenceName": "DLS_Prices_JSON",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
