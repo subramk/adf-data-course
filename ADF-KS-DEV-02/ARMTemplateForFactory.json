@@ -224,7 +224,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "HttpServerLocation",
-						"relativeUrl": "/labs/lab1/PW_MW_DR_01012023.json"
+						"relativeUrl": "/labs/lab2/PW_MW_DR_01012023.json"
 					}
 				},
 				"schema": {}
