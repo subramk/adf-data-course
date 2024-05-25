@@ -12,7 +12,7 @@
 				"type": "HttpServerLocation",
 				"relativeUrl": "/labs/lab2/PW_MW_DR_01012023.json"
 			},
-			"columnDelimiter": ",",
+			"columnDelimiter": "",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
