@@ -1,0 +1,13 @@
+{
+	"name": "LinkedService_JSON_Source",
+	"properties": {
+		"description": "LinkedService for pulling JSON data from a URL",
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "https://retailpricing.blob.core.windows.net",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		}
+	}
+}
