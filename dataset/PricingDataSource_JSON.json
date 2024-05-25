@@ -11,8 +11,7 @@
 			"location": {
 				"type": "HttpServerLocation",
 				"relativeUrl": "/labs/lab2/PW_MW_DR_01012023.json"
-			},
-			"encodingName": "UTF-8"
+			}
 		},
 		"schema": {}
 	}
