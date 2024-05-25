@@ -1,0 +1,23 @@
+{
+	"name": "PricingDataSource_CSV",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "Linked Service HttpSource",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "/labs/lab1/PW_MW_DR_01012023.csv"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

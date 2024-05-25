@@ -1,0 +1,9 @@
+{
+	"name": "ADF-KS-DEV-02",
+	"location": "eastus",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "345dc4e3-ef9b-424c-b8cc-4b7ca56ff5d3",
+		"tenantId": "f389d99b-c9bc-4e7f-a6a4-a8dd8fb6517e"
+	}
+}
