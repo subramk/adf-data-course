@@ -18,13 +18,13 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "DelimitedTextSource",
+						"type": "JsonSource",
 						"storeSettings": {
 							"type": "HttpReadSettings",
 							"requestMethod": "GET"
 						},
 						"formatSettings": {
-							"type": "DelimitedTextReadSettings"
+							"type": "JsonReadSettings"
 						}
 					},
 					"sink": {
@@ -40,7 +40,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "PricingDataSource_CSV",
+						"referenceName": "PricingDataSource_JSON",
 						"type": "DatasetReference"
 					}
 				],
