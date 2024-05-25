@@ -68,12 +68,14 @@
 								}
 							},
 							"sink": {
-								"type": "JsonSink",
+								"type": "DelimitedTextSink",
 								"storeSettings": {
 									"type": "AzureBlobFSWriteSettings"
 								},
 								"formatSettings": {
-									"type": "JsonWriteSettings"
+									"type": "DelimitedTextWriteSettings",
+									"quoteAllText": true,
+									"fileExtension": ".txt"
 								}
 							},
 							"enableStaging": false
@@ -87,7 +89,7 @@
 						],
 						"outputs": [
 							{
-								"referenceName": "RetailPricesJSON",
+								"referenceName": "SinkForJsonDataSource",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -102,7 +104,7 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/PricingDataSource_JSON')]",
-				"[concat(variables('factoryId'), '/datasets/RetailPricesJSON')]"
+				"[concat(variables('factoryId'), '/datasets/SinkForJsonDataSource')]"
 			]
 		},
 		{
@@ -275,6 +277,35 @@
 						"type": "AzureBlobFSLocation",
 						"fileName": "kk.csv",
 						"folderPath": "kkk",
+						"fileSystem": "landing"
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DataSinkLinkedService')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SinkForJsonDataSource')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DataSinkLinkedService",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "prices.json",
+						"folderPath": "kk/json/",
 						"fileSystem": "landing"
 					},
 					"columnDelimiter": ",",
