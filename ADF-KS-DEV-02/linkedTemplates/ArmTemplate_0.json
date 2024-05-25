@@ -225,7 +225,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "prices.json",
-						"folderPath": "kk/json/",
+						"folderPath": "kk",
 						"fileSystem": "landing"
 					},
 					"columnDelimiter": ",",
