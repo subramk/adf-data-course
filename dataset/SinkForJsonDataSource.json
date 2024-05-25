@@ -2,17 +2,15 @@
 	"name": "SinkForJsonDataSource",
 	"properties": {
 		"linkedServiceName": {
-			"referenceName": "DataSinkLinkedService",
+			"referenceName": "LinkedService_JSON_Source",
 			"type": "LinkedServiceReference"
 		},
 		"annotations": [],
 		"type": "DelimitedText",
 		"typeProperties": {
 			"location": {
-				"type": "AzureBlobFSLocation",
-				"fileName": "prices.json",
-				"folderPath": "kk",
-				"fileSystem": "landing"
+				"type": "HttpServerLocation",
+				"relativeUrl": "/labs/lab2/PW_MW_DR_01012023.json"
 			},
 			"columnDelimiter": ",",
 			"escapeChar": "\\",
