@@ -7,15 +7,27 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "ADF-KS-DEV-02"
 		},
+		"DLS_Prices_JSON_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'DLS_Prices_JSON'"
+		},
 		"DataSinkLinkedService_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'DataSinkLinkedService'"
+		},
+		"DLS_Prices_JSON_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://storageacckasidev01.dfs.core.windows.net/"
 		},
 		"DataSinkLinkedService_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://storageacckasidev01.dfs.core.windows.net/"
 		},
 		"Linked Service HttpSource_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://retailpricing.blob.core.windows.net"
+		},
+		"LinkedService_JSON_Source_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://retailpricing.blob.core.windows.net"
 		},
@@ -46,14 +58,23 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"DLS_Prices_JSON_accountKey": {
+						"value": "[parameters('DLS_Prices_JSON_accountKey')]"
+					},
 					"DataSinkLinkedService_accountKey": {
 						"value": "[parameters('DataSinkLinkedService_accountKey')]"
+					},
+					"DLS_Prices_JSON_properties_typeProperties_url": {
+						"value": "[parameters('DLS_Prices_JSON_properties_typeProperties_url')]"
 					},
 					"DataSinkLinkedService_properties_typeProperties_url": {
 						"value": "[parameters('DataSinkLinkedService_properties_typeProperties_url')]"
 					},
 					"Linked Service HttpSource_properties_typeProperties_url": {
 						"value": "[parameters('Linked Service HttpSource_properties_typeProperties_url')]"
+					},
+					"LinkedService_JSON_Source_properties_typeProperties_url": {
+						"value": "[parameters('LinkedService_JSON_Source_properties_typeProperties_url')]"
 					}
 				}
 			},

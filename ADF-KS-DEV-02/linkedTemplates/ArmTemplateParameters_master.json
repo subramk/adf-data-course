@@ -5,13 +5,22 @@
 		"factoryName": {
 			"value": "ADF-KS-DEV-02"
 		},
+		"DLS_Prices_JSON_accountKey": {
+			"value": ""
+		},
 		"DataSinkLinkedService_accountKey": {
 			"value": ""
+		},
+		"DLS_Prices_JSON_properties_typeProperties_url": {
+			"value": "https://storageacckasidev01.dfs.core.windows.net/"
 		},
 		"DataSinkLinkedService_properties_typeProperties_url": {
 			"value": "https://storageacckasidev01.dfs.core.windows.net/"
 		},
 		"Linked Service HttpSource_properties_typeProperties_url": {
+			"value": "https://retailpricing.blob.core.windows.net"
+		},
+		"LinkedService_JSON_Source_properties_typeProperties_url": {
 			"value": "https://retailpricing.blob.core.windows.net"
 		},
 		"containerUri": {

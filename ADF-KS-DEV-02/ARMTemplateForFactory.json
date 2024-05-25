@@ -7,9 +7,17 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "ADF-KS-DEV-02"
 		},
+		"DLS_Prices_JSON_accountKey": {
+			"type": "secureString",
+			"metadata": "Secure string for 'accountKey' of 'DLS_Prices_JSON'"
+		},
 		"DataSinkLinkedService_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'DataSinkLinkedService'"
+		},
+		"DLS_Prices_JSON_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://storageacckasidev01.dfs.core.windows.net/"
 		},
 		"DataSinkLinkedService_properties_typeProperties_url": {
 			"type": "string",
@@ -18,12 +26,85 @@
 		"Linked Service HttpSource_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "https://retailpricing.blob.core.windows.net"
+		},
+		"LinkedService_JSON_Source_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://retailpricing.blob.core.windows.net"
 		}
 	},
 	"variables": {
 		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
 	},
 	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/DS_HTTP_Copy_JSON_To_Sink')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Copy to a Sink which is a JSON",
+				"activities": [
+					{
+						"name": "CopyJsonToSink",
+						"description": "Copy JSON  to Sink",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "JsonSource",
+								"storeSettings": {
+									"type": "HttpReadSettings",
+									"requestMethod": "GET"
+								},
+								"formatSettings": {
+									"type": "JsonReadSettings"
+								}
+							},
+							"sink": {
+								"type": "JsonSink",
+								"storeSettings": {
+									"type": "AzureBlobFSWriteSettings"
+								},
+								"formatSettings": {
+									"type": "JsonWriteSettings"
+								}
+							},
+							"enableStaging": false
+						},
+						"inputs": [
+							{
+								"referenceName": "PricingDataSource_JSON",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "RetailPricesJSON",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": [],
+				"lastPublishTime": "2024-05-25T18:25:01Z"
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/PricingDataSource_JSON')]",
+				"[concat(variables('factoryId'), '/datasets/RetailPricesJSON')]"
+			]
+		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DS_HTTP_Copy_To_Sink_CSV')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
@@ -130,6 +211,55 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/PricingDataSource_JSON')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "LinkedService_JSON_Source",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": "/labs/lab1/PW_MW_DR_01012023.json"
+					}
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/LinkedService_JSON_Source')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/RetailPricesJSON')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "DLS_Prices_JSON",
+					"type": "LinkedServiceReference"
+				},
+				"annotations": [],
+				"type": "Json",
+				"typeProperties": {
+					"location": {
+						"type": "AzureBlobFSLocation",
+						"fileName": "prices.json",
+						"folderPath": "kk/json/data",
+						"fileSystem": "landing"
+					},
+					"encodingName": "UTF-8"
+				},
+				"schema": {}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/DLS_Prices_JSON')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/SinkForCSVDataSource')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -157,6 +287,24 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/DataSinkLinkedService')]"
 			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/DLS_Prices_JSON')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"description": "Data Lake Storage Sink for Prices in JSON",
+				"annotations": [],
+				"type": "AzureBlobFS",
+				"typeProperties": {
+					"url": "[parameters('DLS_Prices_JSON_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('DLS_Prices_JSON_accountKey')]"
+					}
+				}
+			},
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/DataSinkLinkedService')]",
@@ -193,99 +341,20 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/DS_HTTP_Copy_JSON_To_Sink')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
+			"name": "[concat(parameters('factoryName'), '/LinkedService_JSON_Source')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"description": "Copy to a Sink which is a JSON",
-				"activities": [
-					{
-						"name": "CopyJsonToSink",
-						"description": "Copy JSON  to Sink",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "DelimitedTextSource",
-								"storeSettings": {
-									"type": "HttpReadSettings",
-									"requestMethod": "GET"
-								},
-								"formatSettings": {
-									"type": "DelimitedTextReadSettings"
-								}
-							},
-							"sink": {
-								"type": "JsonSink",
-								"storeSettings": {
-									"type": "AzureBlobFSWriteSettings"
-								},
-								"formatSettings": {
-									"type": "JsonWriteSettings"
-								}
-							},
-							"enableStaging": false
-						},
-						"inputs": [
-							{
-								"referenceName": "PricingDataSource_CSV",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "RetailPricesJSON",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
+				"description": "LinkedService for pulling JSON data from a URL",
 				"annotations": [],
-				"lastPublishTime": "2024-05-25T18:25:01Z"
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/PricingDataSource_CSV')]",
-				"[concat(variables('factoryId'), '/datasets/RetailPricesJSON')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/RetailPricesJSON')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "DataSinkLinkedService",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Json",
+				"type": "HttpServer",
 				"typeProperties": {
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "prices.json",
-						"folderPath": "kk/json",
-						"fileSystem": "landing"
-					},
-					"encodingName": "UTF-8"
-				},
-				"schema": {}
+					"url": "[parameters('LinkedService_JSON_Source_properties_typeProperties_url')]",
+					"enableServerCertificateValidation": true,
+					"authenticationType": "Anonymous"
+				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/DataSinkLinkedService')]"
-			]
+			"dependsOn": []
 		}
 	]
 }
